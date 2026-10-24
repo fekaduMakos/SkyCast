@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyCast - Premium Weather</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar glass-panel">
+            <div class="logo">
+                <i class="fa-solid fa-cloud-sun"></i>
+                <span>SkyCast</span>
+            </div>
+            
+            <div class="search-wrapper">
+                <div class="search-container">
+                    <i class="fa-solid fa-search" id="searchBtn"></i>
+                    <input type="text" placeholder="Search city..." id="searchInput">
+                    <button id="locationBtn" class="location-btn" title="Use My Location">
+                        <i class="fa-solid fa-location-crosshairs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="btn-subscribe" id="subscribeBtn">Subscribe</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Column: Current & Highlights -->
+            <div class="left-panel">
+                <div class="current-weather glass-panel">
+                    <div class="weather-header">
+                        <div>
+                            <h1 id="cityName">Searching...</h1>
+                            <p id="date">Loading date...</p>
+                        </div>
+                        <div class="weather-icon-large">
+                            <i class="fa-solid fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="temp-section">
+                        <h2 class="temperature" id="tempMain">--°<span class="unit">C</span></h2>
+                        <div class="condition-badge">
+                            <i class="fa-solid fa-info-circle"></i>
+                            <span id="conditionText">Loading...</span>
+                        </div>
+                    </div>
+                    
+                    <p class="feels-like">Feels like <span id="feelsLike">--°C</span></p>
+                </div>
+
+
+                <div class="highlights glass-panel">
+                    <h3>Today's Highlights</h3>
+                    <div class="highlights-grid">
+                        <div class="highlight-card">
+                            <p class="card-title">Wind Status</p>
+                            <div class="card-content">
+                                <span class="card-value" id="windVal">--</span>
+                                <span class="card-unit">km/h</span>
+                            </div>
+                            <i class="fa-solid fa-wind card-icon"></i>
+                        </div>
+                        
+                        <div class="highlight-card">
+                            <p class="card-title">Humidity</p>
+                            <div class="card-content">
+                                <span class="card-value" id="humidityVal">--</span>
+                                <span class="card-unit">%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" id="humidityBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="highlight-card">
+                            <p class="card-title">Sunrise & Sunset</p>
+                            <div class="sun-times">
+                                <div><i class="fa-solid fa-arrow-up" style="color: #FFD700;"></i> <span id="sunriseVal">--:--</span></div>
+                                <div><i class="fa-solid fa-arrow-down" style="color: #FF8C00;"></i> <span id="sunsetVal">--:--</span></div>
+                            </div>
+                        </div>
+
+                        <div class="highlight-card">
+                            <p class="card-title">UV Index</p>
+                            <div class="card-content">
+                                <span class="card-value" id="uvVal">--</span>
+                            </div>
+                            <p class="uv-status" id="uvStatus">--</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: 7-Day Forecast -->
+            <div class="right-panel glass-panel">
+                <h3>7-Day Forecast</h3>
+                <div class="daily-forecast" id="dailyForecast">
+                    <!-- Javascript will populate this -->
+                    <div class="skeleton-loader" style="height: 50px; margin-bottom: 10px; border-radius: 10px;"></div>
+                    <div class="skeleton-loader" style="height: 50px; margin-bottom: 10px; border-radius: 10px;"></div>
+                    <div class="skeleton-loader" style="height: 50px; margin-bottom: 10px; border-radius: 10px;"></div>
+                    <div class="skeleton-loader" style="height: 50px; margin-bottom: 10px; border-radius: 10px;"></div>
+                    <div class="skeleton-loader" style="height: 50px; margin-bottom: 10px; border-radius: 10px;"></div>
+                    <div class="skeleton-loader" style="height: 50px; margin-bottom: 10px; border-radius: 10px;"></div>
+                    <div class="skeleton-loader" style="height: 50px; margin-bottom: 10px; border-radius: 10px;"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Subscribe / Login Modal -->
+    <div class="modal-overlay" id="subscribeModal">
+        <div class="modal-content glass-panel">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2>Join SkyCast Premium</h2>
+            <p>Get personalized daily forecasts and weather alerts to your email.</p>
+            
+            <button class="btn-google" onclick="window.location.href='php/google_login.php'">
+                <img src="https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png" alt="Google">
+                <span>Continue with Google</span>
+            </button>
+            
+            <div class="divider"><span>OR</span></div>
+
+            <div id="formContainer">
+                <!-- Register Form -->
+                <form id="subscribeForm">
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="emailInput" placeholder="Enter your email address" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="tel" id="phoneInput" placeholder="Phone Number (e.g. +2519...)" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="passwordInput" placeholder="Create a password" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn-submit">Subscribe Now</button>
+                    <p class="toggle-form">Already have an account? <span id="showLogin">Login here</span></p>
+                </form>
+
+                <!-- Login Form (Hidden initially) -->
+                <form id="loginForm" style="display: none;">
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="Enter your email address" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn-submit" style="background: #3b82f6;">Login</button>
+                    <p class="toggle-form">Don't have an account? <span id="showRegister">Subscribe now</span></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
